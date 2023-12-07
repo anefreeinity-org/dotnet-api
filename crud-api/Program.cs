@@ -1,7 +1,11 @@
+using crud_api;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
+builder.Services.AddDbContext<MalDbContext>(options =>
+        options.UseNpgsql("User ID=postgres;Password=password;Host=localhost;Port=5432;Database=postgres;Pooling=true;SearchPath=anime;"));
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

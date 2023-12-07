@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace crud_api.Controllers;
 
@@ -6,43 +7,20 @@ namespace crud_api.Controllers;
 [Route("[controller]")]
 public class WeatherForecastController : ControllerBase
 {
-    private static readonly string[] Summaries = new[]
-    {
-        "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-    };
+    private readonly MalDbContext _db;
 
     private readonly ILogger<WeatherForecastController> _logger;
 
-    public WeatherForecastController(ILogger<WeatherForecastController> logger)
+    public WeatherForecastController(ILogger<WeatherForecastController> logger, MalDbContext context)
     {
         _logger = logger;
+        _db = context;
     }
 
     [HttpGet(Name = "demo")]
-    public IEnumerable<WeatherForecast> Get()
+    public async Task<IEnumerable<MAL>> Get()
     {
-        // return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-        // {
-        //     Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-        //     TemperatureC = Random.Shared.Next(-20, 55),
-        //     Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-        // })
-        // .ToArray();
-
-        return new List<WeatherForecast>()
-        {
-            new WeatherForecast()
-            {
-                Date = DateOnly.FromDateTime(DateTime.Now.AddDays(1)),
-                TemperatureC = 28,
-                Summary = "demo 1",
-            },
-            new WeatherForecast()
-            {
-                Date = DateOnly.FromDateTime(DateTime.Now.AddDays(2)),
-                TemperatureC = 38,
-                Summary = "demo 2",
-            },
-        };
+        //return await _db.Set<MAL>().AsNoTracking().ToListAsync();
+        return await _db.Mal.ToListAsync();
     }
 }
