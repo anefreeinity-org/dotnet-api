@@ -1,5 +1,5 @@
+using crud_api.Repositories.Contracts;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace crud_api.Controllers;
 
@@ -7,20 +7,19 @@ namespace crud_api.Controllers;
 [Route("[controller]")]
 public class WeatherForecastController : ControllerBase
 {
-    private readonly MalDbContext _db;
+    private readonly IRepositoryManager _repo;
 
     private readonly ILogger<WeatherForecastController> _logger;
 
-    public WeatherForecastController(ILogger<WeatherForecastController> logger, MalDbContext context)
+    public WeatherForecastController(ILogger<WeatherForecastController> logger, IRepositoryManager repo)
     {
         _logger = logger;
-        _db = context;
+        _repo = repo;
     }
 
     [HttpGet(Name = "demo")]
     public async Task<IEnumerable<MAL>> Get()
     {
-        //return await _db.Set<MAL>().AsNoTracking().ToListAsync();
-        return await _db.Mal.ToListAsync();
+        return await _repo.MalRepo.GetAllMAL();
     }
 }
