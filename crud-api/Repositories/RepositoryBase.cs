@@ -1,3 +1,4 @@
+using crud_api.Extensions;
 using crud_api.Repositories.Contracts;
 using Microsoft.EntityFrameworkCore;
 
