@@ -15,4 +15,9 @@ public class RepositoryManager : IRepositoryManager
     }
 
     public IMALRepository MalRepo => _malRepo.Value;
+
+    public async Task Save()
+        {
+            await _db.SaveChangesAsync();
+        }
 }
